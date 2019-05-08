@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='wyait后台管理'"></head>
+
+<body>
+<div th:fragment="role">
+
+    <form id="editVisitor" class="layui-form" action="#" method="post">
+        <input th:value="${repair.id}" name="id" type="hidden"/>
+        <div class="layui-form-item">
+            <label class="layui-form-label">宿舍编号</label>
+            <div class="layui-input-block">
+                <input type="text" name="dormRoomId" lay-verify="required" autocomplete="off" class="layui-input"
+                       th:value="${repair.dormRoomId}"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">报修人：</label>
+            <div class="layui-input-block">
+                <input type="text" name="repairName" lay-verify="required" autocomplete="off" class="layui-input"
+                       th:value="${repair.repairName}"/>
+            </div>
+        </div>
+
+       <div class="layui-form-item">
+            <label class="layui-form-label">报修电话：</label>
+            <div class="layui-input-block">
+                <input type="text" name="repairPhone" lay-verify="required" autocomplete="off" class="layui-input"
+                       th:value="${repair.repairPhone}"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">处理状态：</label>
+            <div class="layui-input-block">
+                <input type="text" name="status" lay-verify="required" autocomplete="off" class="layui-input"
+                       th:value="${repair.status}"/>
+            </div>
+        </div>
+         <div class="layui-form-item">
+            <label class="layui-form-label">报修描述：</label>
+            <div class="layui-input-block">
+               <input type="text" name="repaitDescription" lay-verify="required" autocomplete="off" class="layui-input"
+                       th:value="${repair.repaitDescription}"/>
+			</div>
+            </div>
+        </div>
+
+    </form>
+
+    <div class="layui-form-item">
+        <input type="button" name="editBtn" id="editBtn" class="layui-btn" value="确定" style="margin-left:150px"/>
+    </div>
+
+</div>
+<script>
+    $("#editBtn").click(function () {
+        $.post("/repair/editRepair", $("#editVisitor").serialize(), function (data) {
+            if (data.success) {
+                layer.alert("修改成功", function (index) {
+                    window.parent.location.reload();//刷新父页面
+                    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                    parent.layer.close(index); //再执行关闭
+                });
+            } else {
+                layer.alert(data.message);
+            }
+        });
+    })
+
+
+</script>
+</body>
+</html>

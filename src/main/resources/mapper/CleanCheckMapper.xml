@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.demo.mapper.CleanCheckMapper">
+ <select id="getPageCleanCheckList" resultType="com.spring.demo.entity.CleanCheck">
+        select * from clean_check
+        where 1=1
+        <if test="dormRoomId!=null and dormRoomId!=''">
+         and dorm_room_id=#{dormRoomId}
+        </if>
+    </select>
+</mapper>
