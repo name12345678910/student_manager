@@ -2,6 +2,7 @@ package com.spring.demo.service;
 
 import com.spring.demo.entity.Student;
 import com.baomidou.mybatisplus.service.IService;
+import com.spring.demo.util.PageDataResult;
 
 /**
  * <p>
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.service.IService;
  */
 public interface StudentService extends IService<Student> {
 
+    PageDataResult getPageStudentList(Integer page, Integer limit, String studentName);
 }

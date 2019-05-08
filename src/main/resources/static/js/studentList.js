@@ -5,9 +5,9 @@ $(function () {
             , form = layui.form;
 
         tableIns = table.render({
-            id: "visitorTableId"
-            , elem: '#visitorList'
-            , url: '/visitor/getVisitorList'
+            id: "studentTableId"
+            , elem: '#studentList'
+            , url: '/student/getStudentList'
             , method: 'get' //默认：get请求
             , cellMinWidth: 80
             , page: true
