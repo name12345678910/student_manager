@@ -7,7 +7,7 @@ $(function () {
         tableIns = table.render({
             id: "visitorTableId"
             , elem: '#visitorList'
-            , url: '/admin/getAdminList'
+            , url: '/cleanCheck/getCleanCheckList'
             , method: 'get' //默认：get请求
             , cellMinWidth: 80
             , page: true
@@ -23,28 +23,13 @@ $(function () {
             , cols: [[ //表头
                 {type: 'checkbox'}
                 , {field: 'id', title: 'id', sort: true}
-                , {field: 'nickname', title: '昵称'}
-                , {field: 'loginName', title: '用户名'}
-                , {field: 'passwd', title: '密码'}
-                , {field: 'adminStatus', title: '可用状态'}
+                , {field: 'dormRoomId', title: '宿舍编号'}
+                , {field: 'dormRoomAdminId', title: '宿舍管理员id'}
+                , {field: 'checkTime', title: '检查时间（周）'}
+                , {field: 'grade', title: '成绩'}
+                , {field: 'description', title: '描述'}
                 , {fixed: 'right', align: 'center', toolbar: '#optBar'}
             ]]
-            , done: function (res, curr, count) {
-                //如果是异步请求数据方式，res即为你接口返回的信息。
-                //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
-                // console.log(res);
-                //得到当前页码
-                // console.log(curr);
-                //得到数据总量
-                // console.log(count);
-                $("[data-field='adminStatus']").children().each(function () {
-                    if ($(this).text() == '0') {
-                        $(this).text("不可用")
-                    } else if($(this).text() == '1'){
-                        $(this).text("可用")
-                    }
-                });
-            }
         });
 
         //监听工具条
@@ -54,22 +39,22 @@ $(function () {
             if (obj.event === 'editVisitor') {
                 layer.open({
                     type: 2,
-                    title: '编辑管理员',
+                    title: '编辑卫生信息',
                     shadeClose: true,
                     shade: 0.8,
                     area: ['60%', '70%'],
-                    content: '/admin/toEditAdmin?adminId=' + data.id
+                    content: '/cleanCheck/toEditCleanCheck?cleanCheckId=' + data.id
                 });
             }
 
             if (obj.event === 'lookVisitor') {
                 layer.open({
                     type: 2,
-                    title: '查看管理员',
+                    title: '查看卫生',
                     shadeClose: true,
                     shade: 0.8,
                     area: ['60%', '70%'],
-                    content: '/admin/lookAdmin?adminId=' + data.id
+                    content: '/cleanCheck/lookCleanCheck?cleanCheckId=' + data.id
                 });
             }
 
@@ -77,7 +62,7 @@ $(function () {
                 layer.confirm('您确定删除吗？', {
                     btn: ['确定', '取消'] //按钮
                 }, function () {
-                    $.post("/admin/delAdminById", {'adminId': data.id}, function (data) {
+                    $.post("/cleanCheck/delCleanCheckById", {'cleanCheckId': data.id}, function (data) {
                         if (data.success) {
                             layer.alert("删除成功", function (index) {
                                 layer.close(index); //再执行关闭

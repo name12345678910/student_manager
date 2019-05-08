@@ -8,22 +8,34 @@
     <form id="addAdmin" class="layui-form" action="#" method="post">
 
         <div class="layui-form-item">
-            <label class="layui-form-label">昵称：</label>
+            <label class="layui-form-label">宿舍号：</label>
             <div class="layui-input-inline">
-                <input type="text" name="nickname" lay-verify="required" autocomplete="off" class="layui-input" />
+                <input type="text" name="dormRoomId" lay-verify="required" autocomplete="off" class="layui-input" />
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">账号：</label>
+            <label class="layui-form-label">检查人id：</label>
             <div class="layui-input-inline">
-                <input type="text" name="loginName" lay-verify="required" autocomplete="off" class="layui-input" />
+                <input type="text" name="dormRoomAdminId" lay-verify="required" autocomplete="off" class="layui-input" />
             </div>
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label">密码：</label>
+            <label class="layui-form-label">检查周数：</label>
             <div class="layui-input-inline">
-                 <input type="password" name="passwd"  lay-verify="required" autocomplete="off" class="layui-input" / >
+                <input type="text" name="checkTime" lay-verify="required" autocomplete="off" class="layui-input" />
+            </div>
+        </div>
+         <div class="layui-form-item">
+            <label class="layui-form-label">成绩：</label>
+            <div class="layui-input-inline">
+                <input type="text" name="grade" lay-verify="required" autocomplete="off" class="layui-input" />
+            </div>
+        </div>
+         <div class="layui-form-item">
+            <label class="layui-form-label">描述：</label>
+            <div class="layui-input-inline">
+                <input type="text" name="description" lay-verify="required" autocomplete="off" class="layui-input" />
             </div>
         </div>
     </form>
@@ -38,7 +50,7 @@
     });
 
     $("#addBtn").click(function () {
-        $.post("/admin/addAdmin", $("#addAdmin").serialize(), function (data) {
+        $.post("/cleanCheck/addCleanCheck", $("#addAdmin").serialize(), function (data) {
             if (data.success) {
                 layer.alert("添加成功", function (index) {
                     window.parent.location.reload();//刷新父页面

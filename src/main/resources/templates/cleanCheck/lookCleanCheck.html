@@ -7,35 +7,45 @@
 
     <form id="addVisitor" class="layui-form" action="#" method="post">
         <div class="layui-form-item">
-            <label class="layui-form-label">昵称：</label>
-            <div class="layui-input-block">
-                <input type="text" name="nickname" lay-verify="required" autocomplete="off" class="layui-input"
-                       th:value="${admin.nickname}"/>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">用户名：</label>
-            <div class="layui-input-block">
-                <input type="text" name="loginName" lay-verify="required" autocomplete="off" class="layui-input"
-                       th:value="${admin.loginName}"/>
-            </div>
-        </div>
+				<label class="layui-form-label">宿舍编号：</label>
+				<div class="layui-input-block">
+					<input type="text" name="dormRoomId" lay-verify="required"
+						autocomplete="off" class="layui-input"
+						th:value="${cleanCheck.dormRoomId}" />
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">检查人id：</label>
+				<div class="layui-input-block">
+					<input type="text" name="dormRoomAdminId" lay-verify="required"
+						autocomplete="off" class="layui-input"
+						th:value="${cleanCheck.dormRoomAdminId}" />
+				</div>
+			</div>
 
-       <div class="layui-form-item">
-            <label class="layui-form-label">密码：</label>
-            <div class="layui-input-block">
-                <input type="text" name="passwd" lay-verify="required" autocomplete="off" class="layui-input"
-                       th:value="${admin.passwd}"/>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">可用状态：</label>
-            <div class="layui-input-block">
-                <input type="text" name="adminStatus" lay-verify="required" autocomplete="off" class="layui-input"
-                       th:value="${admin.adminStatus}"/>
-            </div>
-        </div>
-
+			<div class="layui-form-item">
+				<label class="layui-form-label">检查周数：</label>
+				<div class="layui-input-block">
+					<input type="text" name="checkTime" lay-verify="required"
+						autocomplete="off" class="layui-input" th:value="${cleanCheck.checkTime}" />
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">成绩：</label>
+				<div class="layui-input-block">
+					<input type="text" name="grade" lay-verify="required"
+						autocomplete="off" class="layui-input"
+						th:value="${cleanCheck.grade}" />
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">描述：</label>
+				<div class="layui-input-block">
+					<input type="text" name="description" lay-verify="required"
+						autocomplete="off" class="layui-input"
+						th:value="${cleanCheck.description}" />
+				</div>
+			</div>
 
     </form>
 </div>

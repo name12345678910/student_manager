@@ -83,6 +83,8 @@ public class CleanCheckController {
     @ResponseBody
     public UcenterResult addVisitor(@Validated CleanCheck cleanCheck) {
     	cleanCheck.setCreateTime(new Date());
+    	System.out.println(cleanCheck);
+    	cleanCheckService.insert(cleanCheck);
         return new UcenterResult(UcenterResultConstant.SUCCESS, null);
     }
 

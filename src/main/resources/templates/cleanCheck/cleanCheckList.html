@@ -5,9 +5,9 @@
 <body style="width: 100%">
 <form id="visitorSearch" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
     <div class="layui-form-item">
-        <label class="layui-form-label">昵称</label>
+        <label class="layui-form-label">宿舍编号</label>
         <div class="layui-input-inline">
-            <input id="visitorName" name="nickname" autocomplete="off" class="layui-input" type="text"/>
+            <input id="visitorName" name="dormRoomId" autocomplete="off" class="layui-input" type="text"/>
         </div>
 
         <button type="reset" class="layui-btn layui-btn-primary">重置</button>
@@ -29,17 +29,17 @@
 
 </div>
 
-<script src="/js/adminList.js"></script>
+<script src="/js/cleanCheckList.js"></script>
 
 <script>
     $("#addVisitor").click(function () {
         layer.open({
             type: 2,
-            title: '添加管理员',
+            title: '添加卫生检查',
             shadeClose: true,
             shade: 0.8,
             area: ['80%', '90%'],
-            content: '/admin/toAddAdmin'
+            content: '/cleanCheck/toAddCleanCheck'
         });
     })
 
@@ -55,19 +55,19 @@
                     layer.msg("未选中")
                     return;
                 }
-                var adminIds = "";
+                var cleanCheckIds = "";
                 for (var i = 0; i < selectedNum; i++) {
                     if (i != selectedNum - 1) {
-                    	adminIds += selected[i].id + ",";
+                    	cleanCheckIds += selected[i].id + ",";
                     } else {
-                    	adminIds += selected[i].id;
+                    	cleanCheckIds += selected[i].id;
                     }
                 }
 
                 layer.confirm('您确定全部删除吗？', {
                     btn: ['确定', '取消'] //按钮
                 }, function () {
-                    $.post("/admin/delAdmins", {"adminIds": adminIds}, function (data) {
+                    $.post("/cleanCheck/delCleanChecks", {"cleanCheckIds": cleanCheckIds}, function (data) {
                         if (data.success) {
                             layer.alert("删除成功", function (index) {
                                 layer.close(index); //再执行关闭
