@@ -50,7 +50,7 @@ public class AdminController {
      *
      * @param page
      * @param limit
-     * @param visitorName
+     * @param
      * @return
      */
     @GetMapping("/getAdminList")
@@ -76,7 +76,7 @@ public class AdminController {
     /**
      * 添加visitor
      *
-     * @param visitor
+     * @param
      * @return
      */
     @PostMapping("/addAdmin")
@@ -91,7 +91,7 @@ public class AdminController {
     /**
      * 跳转修改页面
      *
-     * @param visitorId
+     * @param
      * @return
      */
     @GetMapping("/toEditAdmin")
@@ -106,7 +106,7 @@ public class AdminController {
     /**
      * 修改visitor
      *
-     * @param visitor
+     * @param
      * @return
      */
     @PostMapping("/editAdmin")
@@ -120,7 +120,7 @@ public class AdminController {
     /**
      * 单个删除
      *
-     * @param visitorId
+     * @param
      * @return
      */
     @PostMapping("/delAdminById")
@@ -133,7 +133,7 @@ public class AdminController {
     /**
      * 批量删除
      *
-     * @param visitorIds
+     * @param
      * @return
      */
     @PostMapping("/delAdmins")
@@ -147,7 +147,7 @@ public class AdminController {
     /**
      * 跳转查看页面
      *
-     * @param visitorId
+     * @param
      * @return
      */
     @GetMapping("/lookAdmin")

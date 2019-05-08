@@ -8,13 +8,16 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
+ *
  * </p>
  *
  * @author tangxiaoping123
@@ -30,37 +33,41 @@ public class CleanCheck implements Serializable {
      * 卫生检查表id
      */
     @TableId(value = "id", type = IdType.AUTO)
-    @ApiModelProperty(value = "卫生检查表id",name = "id")
+    @ApiModelProperty(value = "卫生检查表id", name = "id")
     private Integer id;
     /**
-     * 检查宿舍
+     * 宿舍id
      */
-    @ApiModelProperty(value = "检查宿舍",name = "dormRoomId")
+    @ApiModelProperty(value = "宿舍id", name = "dormRoomId")
+    @NotEmpty(message = "宿舍不能为空")
     private Integer dormRoomId;
-    /**
     /**
      * 检查人
      */
-    @ApiModelProperty(value = "检查人",name = "dormRoomAdminId")
+    @ApiModelProperty(value = "检查人", name = "dormRoomAdminId")
+    @NotEmpty(message = "检查人不能为空")
     private Integer dormRoomAdminId;
     /**
      * 检查周数
      */
-    @ApiModelProperty(value = "检查周数",name = "checkTime")
+    @ApiModelProperty(value = "检查周数", name = "checkTime")
+    @NotEmpty(message = "检查周数不能为空")
     private Integer checkTime;
     /**
      * 成绩
      */
-    @ApiModelProperty(value = "成绩",name = "grade")
+    @ApiModelProperty(value = "成绩", name = "grade")
+    @NotEmpty(message = "成绩不能为空")
     private BigDecimal grade;
     /**
      * 描述
      */
-    @ApiModelProperty(value = "描述",name = "description")
+    @ApiModelProperty(value = "描述", name = "description")
+    @NotBlank(message = "描述不能为空")
     private String description;
-    @ApiModelProperty(value = "",name = "createTime")
+    @ApiModelProperty(value = "", name = "createTime")
     private Date createTime;
-    @ApiModelProperty(value = "",name = "updateTime")
+    @ApiModelProperty(value = "", name = "updateTime")
     private Date updateTime;
 
 
@@ -120,16 +127,25 @@ public class CleanCheck implements Serializable {
         this.updateTime = updateTime;
     }
 
+    public Integer getDormRoomId() {
+        return dormRoomId;
+    }
+
+    public void setDormRoomId(Integer dormRoomId) {
+        this.dormRoomId = dormRoomId;
+    }
+
     @Override
     public String toString() {
         return "CleanCheck{" +
-        ", id=" + id +
-        ", dormRoomAdminId=" + dormRoomAdminId +
-        ", checkTime=" + checkTime +
-        ", grade=" + grade +
-        ", description=" + description +
-        ", createTime=" + createTime +
-        ", updateTime=" + updateTime +
-        "}";
+                "id=" + id +
+                ", dormRoomId=" + dormRoomId +
+                ", dormRoomAdminId=" + dormRoomAdminId +
+                ", checkTime=" + checkTime +
+                ", grade=" + grade +
+                ", description='" + description + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
     }
 }
