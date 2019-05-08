@@ -7,6 +7,7 @@ import com.spring.demo.entity.Visitor;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -18,5 +19,7 @@ import java.util.List;
  */
 public interface StudentMapper extends BaseMapper<Student> {
 
-    List<Visitor> getPageStudentList(Page<Visitor> p, @Param("studentName") String studentName);
+    List<Map<String, Object>> getPageStudentList(Page<Map<String, Object>> p, @Param("studentName") String studentName);
+
+    List<Map<String, Object>> getStudentList(@Param("studentIds") List<String> studentIds);
 }

@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
-<head th:include="layout :: htmlhead" th:with="title='访客管理'"></head>
+<head th:include="layout :: htmlhead" th:with="title='学生管理'"></head>
+
 <body style="width: 100%">
-<form id="visitorSearch" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+<form id="studentSearch" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
     <div class="layui-form-item">
         <label class="layui-form-label">学生姓名</label>
         <div class="layui-input-inline">
@@ -14,28 +15,34 @@
         <button class="layui-btn" lay-submit="" lay-filter="searchSubmit">搜索</button>
     </div>
 </form>
+
 <button class="layui-btn layui-btn-danger" lay-submit="" id="delStudent" style="float: left">批量删除</button>
+<a class="layui-btn layui-btn-normal" lay-submit="" id="downLoad" style="float: left">批量下载</a>
+
+<button type="button" class="layui-btn" id="upload" style="float: left">
+    <i class="layui-icon">&#xe67c;</i>批量增加
+</button>
+
 <button class="layui-btn" lay-submit="" id="addStudent" style="float: right">添加</button>
 <!--<hr class="layui-bg-blue"/>-->
 <hr class="layui-bg-black"/>
 
-<table id="visitorList" lay-filter="visitorTable"></table>
+<table id="studentList" lay-filter="studentTable"></table>
 
 <script type="text/html" id="optBar">
-    <a class="layui-btn layui-btn-xs" lay-event="lookStudent">查看</a>
     <a class="layui-btn layui-btn-xs" lay-event="editStudent">编辑</a>
     <a class="layui-btn layui-btn-xs" lay-event="delStudent">删除</a>
 </script>
 
 </div>
 
-<script type="text/javascript" th:src="@{/js/studentList.js}"></script>
+<script type="text/javascript" src="/js/studentList.js"></script>
 
 <script>
-    $("#addVisitor").click(function () {
+    $("#addStudent").click(function () {
         layer.open({
             type: 2,
-            title: '添加来客',
+            title: '添加学生',
             shadeClose: true,
             shade: 0.8,
             area: ['80%', '90%'],
@@ -47,7 +54,7 @@
         layui.use('table', function () {
             var table = layui.table
 
-            $("#delVisitor").click(function () {
+            $("#delStudent").click(function () {
                 var checkStatus = table.checkStatus('studentTableId'); //idTest 即为基础参数 id 对应的值
                 var selected = checkStatus.data //获取选中行的数据
                 var selectedNum = selected.length //获取选中行数量，可作为是否有选中行的条件
@@ -71,7 +78,7 @@
                         if (data.success) {
                             layer.alert("删除成功", function (index) {
                                 layer.close(index); //再执行关闭
-                                load($("visitorSearch").serialize());
+                                load($("studentSearch").serialize());
                             });
                         } else {
                             layer.alert(data.message);
@@ -81,8 +88,63 @@
                     return;
                 });
             })
+
+            $("#downLoad").click(function () {
+                var checkStatus = table.checkStatus('studentTableId'); //idTest 即为基础参数 id 对应的值
+                var selected = checkStatus.data //获取选中行的数据
+                var selectedNum = selected.length //获取选中行数量，可作为是否有选中行的条件
+                if (0 == selectedNum) {
+                    layer.msg("未选中学生")
+                    return;
+                }
+                var studentIds = "";
+                for (var i = 0; i < selectedNum; i++) {
+                    if (i != selectedNum - 1) {
+                        studentIds += selected[i].id + ",";
+                    } else {
+                        studentIds += selected[i].id;
+                    }
+                }
+                location.href = "/student/excelStudentList?studentIds=" + studentIds;
+                /*$.post("/student/excelStudentList", {"studentIds": studentIds}, function (data) {
+                    if (data.success) {
+                        layer.alert("下载成功", function (index) {
+                            layer.close(index); //再执行关闭
+                            load($("studentSearch").serialize());
+                        });
+                    } else {
+                        layer.alert(data.message);
+                    }
+                });*/
+
+            })
         });
     })
+
+    layui.use('upload', function () {
+        var upload = layui.upload;
+
+        //执行实例
+        var uploadInst = upload.render({
+            elem: '#upload' //绑定元素
+            , url: '/student/uploadStudentList' //上传接口
+            , accept: 'file' //普通文件
+            , done: function (data) {
+                //上传完毕回调
+                if (data.success) {
+                    layer.alert("增加成功", function (index) {
+                        layer.close(index); //再执行关闭
+                        load($("studentSearch").serialize());
+                    });
+                } else {
+                    layer.alert(data.message);
+                }
+            }
+            , error: function () {
+                //请求异常回调
+            }
+        });
+    });
 </script>
 </body>
 </html>

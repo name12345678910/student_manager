@@ -8,38 +8,43 @@
     <form id="addVisitor" class="layui-form" action="#" method="post">
 
         <div class="layui-form-item">
-            <label class="layui-form-label">来访姓名：</label>
+            <label class="layui-form-label">学生编号：</label>
             <div class="layui-input-block">
-                <input type="text" name="visitorName" lay-verify="required" autocomplete="off" class="layui-input"/>
+                <input type="text" name="stuNo" lay-verify="required" autocomplete="off" class="layui-input"/>
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">来访电话：</label>
+            <label class="layui-form-label">学生姓名：</label>
             <div class="layui-input-block">
-                <input type="text" name="visitorPhone" lay-verify="required" autocomplete="off" class="layui-input"/>
+                <input type="text" name="stuName" lay-verify="required" autocomplete="off" class="layui-input"/>
             </div>
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label">访问宿舍：</label>
+            <label class="layui-form-label">学生电话：</label>
             <div class="layui-input-inline">
-                <select id="dormRoomId" name="dormRoomId" lay-filter="dormRoomId">
-                </select>
+                <input type="text" name="stuPhone" lay-verify="required" autocomplete="off" class="layui-input"/>
             </div>
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label">访问学生：</label>
+            <label class="layui-form-label">学生班级：</label>
             <div class="layui-input-inline">
-                <select id="studentId" name="studentId" lay-filter="studentId">
-                </select>
+                <input type="text" name="className" lay-verify="required" autocomplete="off" class="layui-input"/>
             </div>
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label">离开时间：</label>
-            <div class="layui-inline">
-                <input type="text" name="goAwayTime" class="layui-input" id="goAwayTime">
+            <label class="layui-form-label">学生专业：</label>
+            <div class="layui-input-inline">
+                <input type="text" name="majorName" lay-verify="required" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">宿舍编号：</label>
+            <div class="layui-input-inline">
+                <input type="text" name="dormRoomNo" lay-verify="required" autocomplete="off" class="layui-input"/>
             </div>
         </div>
 
@@ -92,7 +97,7 @@
     });
 
     $("#addBtn").click(function () {
-        $.post("/visitor/addVisitor", $("#addVisitor").serialize(), function (data) {
+        $.post("/student/addStudent", $("#addVisitor").serialize(), function (data) {
             if (data.success) {
                 layer.alert("添加成功", function (index) {
                     window.parent.location.reload();//刷新父页面

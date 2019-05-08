@@ -2,14 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.demo.mapper.StudentMapper">
     <select id="getPageStudentList" resultType="Map">
-        select * from student stu
+        select stu.id,stu.stu_no,stu.stu_name,stu.stu_phone,m.major_name,d.dorm_name,dor.dorm_room_no,cls.class_name
+        from student stu
         left join stu_class cls on cls.id=stu.stu_class_id
-        left join department dep dep.id=cls.department_id
+        left join department dep on dep.id=cls.department_id
         left join dorm_room dor on dor.id=stu.stu_dorm_room_id
         left join dorm d on d.id=dor.dorm_id
+        left join major m on m.id=stu.major_id
         where 1=1
-        <if test="${studentName!=null and studentName!= ''}">
-            and stu.stu_name= like concat('%',#{studentName},'%')
+        <if test="studentName!=null and studentName!= ''">
+            and <![CDATA[ stu.stu_name like CONCAT('%', #{studentName}, '%')]]>
         </if>
+    </select>
+
+    <select id="getStudentList" resultType="Map">
+        select stu.id,stu.stu_no,stu.stu_name,stu.stu_phone,m.major_name,d.dorm_name,dor.dorm_room_no,cls.class_name
+        from student stu
+        left join stu_class cls on cls.id=stu.stu_class_id
+        left join department dep on dep.id=cls.department_id
+        left join dorm_room dor on dor.id=stu.stu_dorm_room_id
+        left join dorm d on d.id=dor.dorm_id
+        left join major m on m.id=stu.major_id
+        where 1=1 and stu.id in
+        <foreach collection="studentIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </select>
 </mapper>

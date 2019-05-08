@@ -20,6 +20,12 @@ public class GlobalExceptionHandler {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    @ExceptionHandler(value = GloBalException.class)
+    public UcenterResult exceptionHandler(HttpServletRequest request, GloBalException exception) {
+        logger.error(exception.getMessage());
+        return new UcenterResult(exception.getMessage());
+    }
+
     /**
      * 处理请求对象属性不满足校验规则的异常信息
      *

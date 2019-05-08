@@ -22,20 +22,13 @@ $(function () {
             }
             , cols: [[ //表头
                 {type: 'checkbox'}
-                , {field: 'visitorName', title: '访问者姓名'}
-                , {field: 'visitorPhone', title: '访问者电话'}
-                , {field: 'dormRoomId', title: '访问宿舍id'}
-                , {field: 'studentId', title: '访问学生id'}
-                , {
-                    field: 'visitorTime',
-                    title: '访问时间',
-                    templet: '<div>{{ Format(d.visitorTime,"yyyy-MM-dd hh:mm:ss")}}</div>}'
-                }
-                , {
-                    field: 'goAwayTime',
-                    title: '离开时间',
-                    templet: '<div>{{ Format(d.goAwayTime,"yyyy-MM-dd hh:mm:ss")}}</div>}'
-                }
+                , {field: 'stu_no', title: '学生编号'}
+                , {field: 'stu_name', title: '学生姓名'}
+                , {field: 'stu_phone', title: '学生电话'}
+                , {field: 'class_name', title: '学生班级'}
+                , {field: 'major_name', title: '学生专业'}
+                , {field: 'dorm_name', title: '宿舍楼名称'}
+                , {field: 'dorm_room_no', title: '宿舍编号'}
                 , {fixed: 'right', align: 'center', toolbar: '#optBar'}
             ]]
             , done: function (res, curr, count) {
@@ -46,47 +39,47 @@ $(function () {
                 // console.log(curr);
                 //得到数据总量
                 // console.log(count);
-                $("[data-field='status']").children().each(function () {
+                $("[data-field='adminStatus']").children().each(function () {
                     if ($(this).text() == '0') {
-                        $(this).text("已处理")
-                    } else {
-                        $(this).text("未处理")
+                        $(this).text("不可用")
+                    } else if ($(this).text() == '1') {
+                        $(this).text("可用")
                     }
                 });
             }
         });
 
         //监听工具条
-        table.on('tool(visitorTable)', function (obj) {
+        table.on('tool(studentTable)', function (obj) {
             var data = obj.data;
             $("#appId").val(data.id);
-            if (obj.event === 'editVisitor') {
+            if (obj.event === 'editStudent') {
                 layer.open({
                     type: 2,
-                    title: '编辑访客',
+                    title: '编辑学生',
                     shadeClose: true,
                     shade: 0.8,
                     area: ['60%', '70%'],
-                    content: '/visitor/toEditVisitor?visitorId=' + data.id
+                    content: '/student/toEditStudent?studentId=' + data.id
                 });
             }
 
-            if (obj.event === 'lookVisitor') {
+            if (obj.event === 'lookStudent') {
                 layer.open({
                     type: 2,
-                    title: '查看访客',
+                    title: '查看管理员',
                     shadeClose: true,
                     shade: 0.8,
                     area: ['60%', '70%'],
-                    content: '/visitor/lookVisitor?visitorId=' + data.id
+                    content: '/student/lookStudent?studentId=' + data.id
                 });
             }
 
-            if (obj.event === 'delVisitor') {
+            if (obj.event === 'delStudent') {
                 layer.confirm('您确定删除吗？', {
                     btn: ['确定', '取消'] //按钮
                 }, function () {
-                    $.post("/visitor/delVisitorById", {'visitorId': data.id}, function (data) {
+                    $.post("/student/delStudentById", {'studentId': data.id}, function (data) {
                         if (data.success) {
                             layer.alert("删除成功", function (index) {
                                 layer.close(index); //再执行关闭
