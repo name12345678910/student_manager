@@ -14,7 +14,7 @@ import com.baomidou.mybatisplus.annotations.TableId;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -41,25 +41,25 @@ public class Fee implements Serializable {
      * 宿舍id
      */
     @ApiModelProperty(value = "宿舍id", name = "dormRoomId")
-    @NotEmpty(message = "宿舍id不能为空")
+    @NotNull(message = "宿舍id不能为空")
     private Integer dormRoomId;
     /**
      * 管理员id--录入的管理员
      */
     @ApiModelProperty(value = "管理员id--录入的管理员", name = "dormRoomAdminId")
-    @NotEmpty(message = "管理员id不能为空")
+    @NotNull(message = "管理员id不能为空")
     private Integer dormRoomAdminId;
     /**
      * 水费
      */
     @ApiModelProperty(value = "水费", name = "waterFee")
-    @NotEmpty(message = "水费不能为空")
+    @NotNull(message = "水费不能为空")
     private BigDecimal waterFee;
     /**
      * 电费
      */
     @ApiModelProperty(value = "电费", name = "electricityFee")
-    @NotEmpty(message = "电费不能为空")
+    @NotNull(message = "电费不能为空")
     private BigDecimal electricityFee;
     /**
      * 缴纳时间

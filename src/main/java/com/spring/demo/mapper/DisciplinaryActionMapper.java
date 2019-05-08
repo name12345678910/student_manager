@@ -1,7 +1,13 @@
 package com.spring.demo.mapper;
 
 import com.spring.demo.entity.DisciplinaryAction;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.baomidou.mybatisplus.plugins.Page;
 
 /**
  * <p>
@@ -13,4 +19,5 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  */
 public interface DisciplinaryActionMapper extends BaseMapper<DisciplinaryAction> {
 
+	List<DisciplinaryAction> getPageDisciplinaryActionList(Page<DisciplinaryAction> p, Integer studentId);
 }

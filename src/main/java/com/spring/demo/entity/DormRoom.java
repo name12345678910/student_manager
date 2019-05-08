@@ -12,7 +12,7 @@ import java.util.Date;
 import com.baomidou.mybatisplus.annotations.TableId;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -40,13 +40,13 @@ public class DormRoom implements Serializable {
      * 所属宿舍楼
      */
     @ApiModelProperty(value = "所属宿舍楼", name = "dormId")
-    @NotEmpty(message = "所属宿舍楼不能为空")
+    @NotNull(message = "所属宿舍楼不能为空")
     private Integer dormId;
     /**
      * 所属院系
      */
     @ApiModelProperty(value = "所属院系", name = "departmentId")
-    @NotEmpty(message = "所属院系不能为空")
+    @NotNull(message = "所属院系不能为空")
     private Integer departmentId;
     /**
      * 宿舍编号

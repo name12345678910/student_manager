@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='wyait后台管理'"></head>
+
+<body>
+	<div th:fragment="role">
+
+		<form id="editVisitor" class="layui-form" action="#" method="post">
+			<input th:value="${fee.id}" name="id" type="hidden" />
+			<div class="layui-form-item">
+				<label class="layui-form-label">宿舍id：</label>
+				<div class="layui-input-block">
+					<input type="text" name="dormRoomId" lay-verify="required"
+						autocomplete="off" class="layui-input" th:value="${fee.dormRoomId}" />
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">宿管id：</label>
+				<div class="layui-input-block">
+					<input type="text" name="dormRoomAdminId" lay-verify="required"
+						autocomplete="off" class="layui-input" th:value="${fee.dormRoomAdminId}" />
+				</div>
+			</div>
+
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">水费：</label>
+				<div class="layui-input-block">
+					<input type="text" name="waterFee" lay-verify="required"
+						autocomplete="off" class="layui-input" th:value="${fee.waterFee}" />
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">电费：</label>
+				<div class="layui-input-block">
+					<input type="text" name="electricityFee" lay-verify="required"
+						autocomplete="off" class="layui-input" th:value="${fee.electricityFee}" />
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">缴纳周数：</label>
+				<div class="layui-input-block">
+					<input type="text" name="feeTime" lay-verify="required"
+						autocomplete="off" class="layui-input" th:value="${fee.feeTime}" />
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">缴纳状态：</label>
+				<div class="layui-input-block">
+					<input type="text" name="status" lay-verify="required"
+						autocomplete="off" class="layui-input" th:value="${fee.status}" />
+				</div>
+			</div>
+
+		</form>
+
+		<div class="layui-form-item">
+			<input type="button" name="editBtn" id="editBtn" class="layui-btn"
+				value="确定" />
+		</div>
+
+	</div>
+	<script>
+		$("#editBtn").click(
+				function() {
+					$.post("/fee/editFee", $("#editVisitor").serialize(),
+							function(data) {
+								if (data.success) {
+									layer.alert("修改成功", function(index) {
+										window.parent.location.reload();//刷新父页面
+										var index = parent.layer
+												.getFrameIndex(window.name); //先得到当前iframe层的索引
+										parent.layer.close(index); //再执行关闭
+									});
+								} else {
+									layer.alert(data.message);
+								}
+							});
+				})
+	</script>
+</body>
+</html>

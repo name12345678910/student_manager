@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.demo.mapper.DormMapper">
-
+ <select id="getPageDormList" resultType="com.spring.demo.entity.Dorm">
+        select * from dorm
+        where 1=1
+        <if test="dormNo!=null and dormNo!=''">
+         and dorm_no=#{dormNo}
+        </if>
+         <if test="dormName!=null and dormName!=''">
+         and dorm_name=#{dormName}
+        </if>
+    </select>
 </mapper>

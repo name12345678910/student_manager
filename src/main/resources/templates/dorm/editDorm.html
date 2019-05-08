@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='wyait后台管理'"></head>
+
+<body>
+<div th:fragment="role">
+
+    <form id="editVisitor" class="layui-form" action="#" method="post">
+        <input th:value="${dorm.id}" name="id" type="hidden"/>
+        <div class="layui-form-item">
+            <label class="layui-form-label">宿舍楼编号：</label>
+            <div class="layui-input-block">
+                <input type="text" name="dormNo" lay-verify="required" autocomplete="off" class="layui-input"
+                       th:value="${dorm.dormNo}"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">楼栋名称：</label>
+            <div class="layui-input-block">
+                <input type="text" name="dormName" lay-verify="required" autocomplete="off" class="layui-input"
+                       th:value="${dorm.dormName}"/>
+            </div>
+        </div>
+    </form>
+
+    <div class="layui-form-item">
+        <input type="button" name="editBtn" id="editBtn" class="layui-btn" value="确定"/>
+    </div>
+
+</div>
+<script>
+    $("#editBtn").click(function () {
+        $.post("/dorm/editDorm", $("#editVisitor").serialize(), function (data) {
+            if (data.success) {
+                layer.alert("修改成功", function (index) {
+                    window.parent.location.reload();//刷新父页面
+                    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                    parent.layer.close(index); //再执行关闭
+                });
+            } else {
+                layer.alert(data.message);
+            }
+        });
+    })
+
+
+</script>
+</body>
+</html>
