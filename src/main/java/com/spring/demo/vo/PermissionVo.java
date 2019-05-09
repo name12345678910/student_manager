@@ -49,7 +49,7 @@ public class PermissionVo implements Serializable {
     @ApiModelProperty(value = "菜单图标名称", name = "icon")
     private String icon;
 
-    private List<Permission> children;
+    private List<Permission> permissionList;
 
     public Integer getId() {
         return id;
@@ -115,12 +115,12 @@ public class PermissionVo implements Serializable {
         this.icon = icon;
     }
 
-    public List<Permission> getChildren() {
-        return children;
+    public List<Permission> getPermissionList() {
+        return permissionList;
     }
 
-    public void setChildren(List<Permission> children) {
-        this.children = children;
+    public void setPermissionList(List<Permission> permissionList) {
+        this.permissionList = permissionList;
     }
 
     @Override
@@ -134,7 +134,7 @@ public class PermissionVo implements Serializable {
                 ", descpt='" + descpt + '\'' +
                 ", code='" + code + '\'' +
                 ", icon='" + icon + '\'' +
-                ", children=" + children +
+                ", permissionList=" + permissionList +
                 '}';
     }
 }

@@ -17,7 +17,7 @@ import java.util.List;
  */
 public interface PermissionService extends IService<Permission> {
 
-    List<PermissionVo> getPermissionVo();
+    List<PermissionVo> getPermissionVo(List<String> ids);
 
     PageDataResult getEditPermissionList(Integer page, Integer limit, Integer roleId);
 }

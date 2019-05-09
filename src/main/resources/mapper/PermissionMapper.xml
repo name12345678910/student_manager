@@ -3,11 +3,15 @@
 <mapper namespace="com.spring.demo.mapper.PermissionMapper">
     <resultMap id="permissionVo" type="com.spring.demo.vo.PermissionVo">
         <id property="id" column="id"/>
-        <collection property="children" column="id" ofType="com.spring.demo.entity.Permission"
+        <collection property="permissionList" column="id" ofType="com.spring.demo.entity.Permission"
                     select="com.spring.demo.mapper.PermissionMapper.getPermissionListByPid"></collection>
     </resultMap>
     <select id="getPermissionVo" resultMap="permissionVo">
         select * from permission where pid=-1
+        and id in
+        <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </select>
 
     <select id="getPermissionListByPid" resultType="com.spring.demo.entity.Permission">

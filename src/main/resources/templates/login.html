@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!--head部分-->
+<head th:include="layout :: htmlhead" th:with="title='后台管理'">
+</head>
+<body style="width: 100%;height:auto;background: url('/images/bk.gif') no-repeat;background-size: 100%;">
+<div class="layui-container" style="height: 100%">
+
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 6%">
+        <legend style="margin-left: 40%"><span style="font-weight: bold;font-size:22px;">管理员登陆</span></legend>
+    </fieldset>
+
+    <div class="layui-row">
+        <div class="layui-col-xs3">
+            <div class="grid-demo grid-demo-bg1">
+                &nbsp;
+            </div>
+        </div>
+        <div class="layui-col-xs6">
+            <div class="grid-demo">
+                <form id="useLogin" class="layui-form" action="">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">用户名</label>
+                        <div class="layui-input-inline">
+                            <input id="username" name="username" lay-verify="required" autocomplete="off"
+                                   class="layui-input" type="tel"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">密&nbsp;&nbsp;码</label>
+                        <div class="layui-input-inline">
+                            <input id="password" name="password" lay-verify="required" autocomplete="off"
+                                   class="layui-input" type="password"/>
+                        </div>
+                    </div>
+                    <input type="hidden" name="loginType" value="1">
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button id="loginBtn" class="layui-btn layui-btn-primary" lay-submit="" lay-filter="login">
+                                登录
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $("#loginBtn").click(function () {
+        var flag = checkParams();
+        if (flag != false) {
+            $.post("/login", $("#useLogin").serialize(), function (res) {
+                if (res.success) {
+                    var data = res.data;
+                    if (data.loginType == 1) {
+                        var userId = data.admin.id;
+                        window.location.href = "/index?userId=" + userId + "&loginType=1";
+                    } else {
+                        var userId = data.student.id;
+                        window.location.href = "/index?userId=" + userId + "&loginType=2";
+                    }
+                } else {
+                    layer.alert(res.message, function () {
+                        layer.closeAll();//关闭所有弹框
+                    });
+                }
+            });
+        }
+        return false;
+    })
+
+    function checkParams() {
+        //  校验
+        var username = $("#username").val();
+        var password = $("#password").val();
+
+        var p1 = /^\w\w{4,11}$/;//用户名必须为5-12为字母或数字
+        if (!p1.test(username)) {
+            layer.msg("用户名必须为5-12为字母或数字")
+            return false;
+        }
+        var p2 = /^\d\d{5}$/;//6位数字
+        if (!p2.test(password)) {
+            layer.msg("密码为6位数字")
+            return false;
+        }
+        return true;
+    }
+</script>
+</body>
+</html>

@@ -24,8 +24,8 @@ import java.util.Map;
 public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permission> implements PermissionService {
 
     @Override
-    public List<PermissionVo> getPermissionVo() {
-        return baseMapper.getPermissionVo();
+    public List<PermissionVo> getPermissionVo(List<String> ids) {
+        return baseMapper.getPermissionVo(ids);
     }
 
     @Override

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,7 +42,9 @@ public class PermissionController {
     @GetMapping("/getPermissionVo")
     @ResponseBody
     public UcenterResult getPermissionVo() {
-        List<PermissionVo> permissionVoList = permissionService.getPermissionVo();
+        List<String> ids=new ArrayList<>();
+        ids.add("1");
+        List<PermissionVo> permissionVoList = permissionService.getPermissionVo(ids);
         return new UcenterResult(UcenterResultConstant.SUCCESS, permissionVoList);
     }
 

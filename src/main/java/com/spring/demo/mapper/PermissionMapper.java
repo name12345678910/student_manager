@@ -19,7 +19,7 @@ import java.util.Map;
  */
 public interface PermissionMapper extends BaseMapper<Permission> {
 
-    List<PermissionVo> getPermissionVo();
+    List<PermissionVo> getPermissionVo(@Param("ids") List<String> ids);
 
     List<Permission> getPermissionListByPid(@Param("pid") Integer pid);
 

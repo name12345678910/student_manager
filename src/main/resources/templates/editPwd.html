@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='wyait后台管理'"></head>
+
+<body>
+<div th:fragment="role">
+
+    <form id="editPwd" class="layui-form" action="#" method="post">
+
+        <input th:value="${userId}" id="userId" name="userId" type="hidden">
+        <div class="layui-form-item">
+            <label class="layui-form-label">原密码：</label>
+            <div class="layui-input-block">
+                <input type="password" name="oldPwd" id="oldPwd" lay-verify="required" autocomplete="off"
+                       class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">新密码：</label>
+            <div class="layui-input-block">
+                <input type="password" name="newPwd" id="newPwd" lay-verify="required" autocomplete="off"
+                       class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">确认密码：</label>
+            <div class="layui-input-block">
+                <input type="password" name="newPwd2" id="newPwd2" lay-verify="required" autocomplete="off"
+                       class="layui-input"/>
+            </div>
+        </div>
+
+    </form>
+    <div class="layui-form-item">
+        <input type="button" name="editBtn" id="editBtn" class="layui-btn" value="确定"/>
+    </div>
+</div>
+<script>
+
+    $("#editBtn").click(function () {
+        var newPwd = $("#newPwd").val();
+        var newPwd2 = $("#newPwd2").val();
+        var oldPwd = $("#oldPwd").val()
+
+        var p = /^\d\d{5}$/;//6位数字
+        if (!p.test(newPwd) || !p.test(newPwd2) || !p.test(oldPwd)) {
+            layer.msg("密码为6位数字")
+            return false;
+        }
+
+        if (newPwd != newPwd2) {
+            layer.msg("两次新密码输入不相同")
+            return false;
+        }
+
+        $.post("/admin/editPwd", $("#editPwd").serialize(), function (data) {
+            if (data.success) {
+                layer.alert("修改成功", function (index) {
+                    window.parent.location.reload();//刷新父页面
+                    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                    parent.layer.close(index); //再执行关闭
+                });
+            } else {
+                layer.alert(data.message);
+            }
+        });
+    })
+
+</script>
+</body>
+</html>
