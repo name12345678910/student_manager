@@ -107,9 +107,12 @@
 
     layui.use('laydate', function () {
         var laydate = layui.laydate;
+        var date = new Date().toLocaleDateString();
         //执行一个laydate实例
         laydate.render({
             elem: '#goAwayTime' //指定元素
+            , trigger: 'click'//自定义弹出框，采用click弹出
+            , min: date
         });
     });
 </script>
