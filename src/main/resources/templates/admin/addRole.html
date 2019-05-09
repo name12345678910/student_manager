@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='wyait后台管理'"></head>
+
+<body>
+<div th:fragment="role">
+
+    <form id="addAdmin" class="layui-form" action="#" method="post">
+
+        <input type="hidden" id="adminId" name="adminId" th:value="${adminId}"/>
+        <div class="layui-form-item">
+            <label class="layui-form-label">选择角色：</label>
+            <div class="layui-input-inline">
+                <select id="roleId" name="roleId" lay-filter="roleId">
+                </select>
+            </div>
+        </div>
+
+    </form>
+    <div class="layui-form-item">
+        <input type="button" name="addBtn" id="addRole" class="layui-btn" value="确定"/>
+    </div>
+</div>
+<script>
+    layui.use('form', function () {
+        var form = layui.form;
+
+    });
+
+    $("#addRole").click(function () {
+        $.post("/admin/addAdminRole", $("#addAdmin").serialize(), function (data) {
+            if (data.success) {
+                layer.alert("添加成功", function (index) {
+                    window.parent.location.reload();//刷新父页面
+                    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                    parent.layer.close(index); //再执行关闭
+                });
+            } else {
+                layer.alert(data.message);
+            }
+        });
+    })
+
+    layui.use('form', function () {
+        var form = layui.form;
+        $.ajax({
+            url: '/role/getRoleList2',
+            type: "get",
+            dataType: "json",
+            contentType: "application/json",
+            async: false,
+            success: function (result) {
+                var roleList = result.data;
+                var strs = "<option value = ''>" + "请选择" + "</option>";
+                for (var x in roleList) {
+                    strs += '<option value = "' + roleList[x].id + '">' + roleList[x].roleName + '</option>'
+                }
+                $("#roleId").html(strs);
+                form.render('select');//最后记得渲染
+            }
+        });
+    });
+</script>
+</body>
+</html>

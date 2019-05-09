@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="layout :: htmlhead" th:with="title='学生管理'"></head>
+
+<body style="width: 100%">
+
+<!--<hr class="layui-bg-blue"/>-->
+<hr class="layui-bg-black"/>
+
+<table id="editPermissionList" lay-filter="editPermissionTable"></table>
+
+<input type="hidden" id="roleId" name="roelId" th:value="${roleId}"/>
+
+<script type="text/html" id="optBar">
+    {{#  if(d.status ==1){ }}
+    <a class="layui-btn layui-btn-danger" lay-event="delPermission">取消授权</a>
+    {{# }else if(d.status ==0) { }}
+    <a class="layui-btn layui-btn-mini" lay-event="addPermission">授予权限</a>
+    {{# } }}
+</script>
+
+</div>
+
+<script type="text/javascript" src="/js/editPermissionList.js"></script>
+
+<script>
+    $("#addStudent").click(function () {
+        layer.open({
+            type: 2,
+            title: '添加学生',
+            shadeClose: true,
+            shade: 0.8,
+            area: ['80%', '90%'],
+            content: '/student/toAddStudent'
+        });
+    })
+
+    $(function () {
+        layui.use('table', function () {
+            var table = layui.table
+
+            $("#delStudent").click(function () {
+                var checkStatus = table.checkStatus('studentTableId'); //idTest 即为基础参数 id 对应的值
+                var selected = checkStatus.data //获取选中行的数据
+                var selectedNum = selected.length //获取选中行数量，可作为是否有选中行的条件
+                if (0 == selectedNum) {
+                    layer.msg("未选中订单")
+                    return;
+                }
+                var studentIds = "";
+                for (var i = 0; i < selectedNum; i++) {
+                    if (i != selectedNum - 1) {
+                        studentIds += selected[i].id + ",";
+                    } else {
+                        studentIds += selected[i].id;
+                    }
+                }
+
+                layer.confirm('您确定全部删除吗？', {
+                    btn: ['确定', '取消'] //按钮
+                }, function () {
+                    $.post("/student/delStudents", {"studentIds": studentIds}, function (data) {
+                        if (data.success) {
+                            layer.alert("删除成功", function (index) {
+                                layer.close(index); //再执行关闭
+                                load($("studentSearch").serialize());
+                            });
+                        } else {
+                            layer.alert(data.message);
+                        }
+                    });
+                }, function () {
+                    return;
+                });
+            })
+
+            $("#downLoad").click(function () {
+                var checkStatus = table.checkStatus('studentTableId'); //idTest 即为基础参数 id 对应的值
+                var selected = checkStatus.data //获取选中行的数据
+                var selectedNum = selected.length //获取选中行数量，可作为是否有选中行的条件
+                if (0 == selectedNum) {
+                    layer.msg("未选中学生")
+                    return;
+                }
+                var studentIds = "";
+                for (var i = 0; i < selectedNum; i++) {
+                    if (i != selectedNum - 1) {
+                        studentIds += selected[i].id + ",";
+                    } else {
+                        studentIds += selected[i].id;
+                    }
+                }
+                location.href = "/student/excelStudentList?studentIds=" + studentIds;
+                /*$.post("/student/excelStudentList", {"studentIds": studentIds}, function (data) {
+                    if (data.success) {
+                        layer.alert("下载成功", function (index) {
+                            layer.close(index); //再执行关闭
+                            load($("studentSearch").serialize());
+                        });
+                    } else {
+                        layer.alert(data.message);
+                    }
+                });*/
+
+            })
+        });
+    })
+
+    layui.use('upload', function () {
+        var upload = layui.upload;
+
+        //执行实例
+        var uploadInst = upload.render({
+            elem: '#upload' //绑定元素
+            , url: '/student/uploadStudentList' //上传接口
+            , accept: 'file' //普通文件
+            , done: function (data) {
+                //上传完毕回调
+                if (data.success) {
+                    layer.alert("增加成功", function (index) {
+                        layer.close(index); //再执行关闭
+                        load($("studentSearch").serialize());
+                    });
+                } else {
+                    layer.alert(data.message);
+                }
+            }
+            , error: function () {
+                //请求异常回调
+            }
+        });
+    });
+</script>
+</body>
+</html>

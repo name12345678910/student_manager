@@ -1,6 +1,11 @@
 package com.spring.demo.controller.web;
 
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.spring.demo.entity.AdminRole;
+import com.spring.demo.entity.Role;
+import com.spring.demo.service.AdminRoleService;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +21,7 @@ import com.spring.demo.util.PageDataResult;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,7 +29,7 @@ import org.springframework.validation.annotation.Validated;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author tangxiaoping123
@@ -32,8 +38,10 @@ import org.springframework.validation.annotation.Validated;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-	@Autowired
+    @Autowired
     private AdminService adminService;
+    @Autowired
+    private AdminRoleService adminRoleService;
 
     /**
      * 跳转列表首页
@@ -43,6 +51,18 @@ public class AdminController {
     @GetMapping("/adminList")
     public String index() {
         return "admin/adminList";
+    }
+
+    /**
+     * 跳转列表首页
+     *
+     * @return
+     */
+    @GetMapping("/toAddRole")
+    public ModelAndView toAddRole(@RequestParam("adminId") Integer adminId) {
+        ModelAndView mac = new ModelAndView("admin/addRole");
+        mac.addObject("adminId", adminId);
+        return mac;
     }
 
     /**
@@ -56,8 +76,8 @@ public class AdminController {
     @GetMapping("/getAdminList")
     @ResponseBody
     public PageDataResult getAdminList(@RequestParam(value = "page", defaultValue = "1") Integer page,
-                                         @RequestParam(value = "limit", defaultValue = "10") Integer limit,
-                                         @RequestParam(value = "nickname", required = false) String nickname) {
+                                       @RequestParam(value = "limit", defaultValue = "10") Integer limit,
+                                       @RequestParam(value = "nickname", required = false) String nickname) {
         PageDataResult pdr = null;
         pdr = adminService.getPageAdminList(page, limit, nickname);
         return pdr;
@@ -82,9 +102,9 @@ public class AdminController {
     @PostMapping("/addAdmin")
     @ResponseBody
     public UcenterResult addVisitor(@Validated Admin admin) {
-    	admin.setAdminStatus(1);
-    	admin.setCreateTime(new Date());
-    	adminService.insert(admin);
+        admin.setAdminStatus(1);
+        admin.setCreateTime(new Date());
+        adminService.insert(admin);
         return new UcenterResult(UcenterResultConstant.SUCCESS, null);
     }
 
@@ -96,7 +116,7 @@ public class AdminController {
      */
     @GetMapping("/toEditAdmin")
     public ModelAndView toEditVisitor(@RequestParam("adminId") Integer adminId) {
-    	System.out.println(adminId);
+        System.out.println(adminId);
         ModelAndView mav = new ModelAndView("admin/editAdmin");
         Admin admin = adminService.selectById(adminId);
         mav.addObject("admin", admin);
@@ -112,8 +132,8 @@ public class AdminController {
     @PostMapping("/editAdmin")
     @ResponseBody
     public UcenterResult editVisitor(@Validated Admin admin) {
-    	admin.setUpdateTime(new Date());
-    	adminService.updateById(admin);
+        admin.setUpdateTime(new Date());
+        adminService.updateById(admin);
         return new UcenterResult(UcenterResultConstant.SUCCESS, null);
     }
 
@@ -126,7 +146,7 @@ public class AdminController {
     @PostMapping("/delAdminById")
     @ResponseBody
     public UcenterResult delAdmin(@RequestParam("adminId") Integer adminId) {
-    	adminService.deleteById(adminId);
+        adminService.deleteById(adminId);
         return new UcenterResult(UcenterResultConstant.SUCCESS, null);
     }
 
@@ -156,6 +176,29 @@ public class AdminController {
         Admin admin = adminService.selectById(adminId);
         mav.addObject("admin", admin);
         return mav;
+    }
+
+    /**
+     * layui分页查询
+     *
+     * @return
+     */
+    @PostMapping("/addAdminRole")
+    @ResponseBody
+    public UcenterResult addRole(@RequestParam("adminId") Integer adminId,
+                                 @RequestParam("roleId") Integer roleId) {
+        EntityWrapper<AdminRole> adminRoleEntityWrapper = new EntityWrapper<>();
+        adminRoleEntityWrapper.eq("admin_id", adminId);
+        adminRoleEntityWrapper.eq("role_id", roleId);
+        List<AdminRole> adminRoleList = adminRoleService.selectList(adminRoleEntityWrapper);
+        if (adminRoleList.size() != 0) {
+            return new UcenterResult(UcenterResultConstant.SUCCESS, null);
+        }
+        AdminRole adminRole = new AdminRole();
+        adminRole.setAdminId(adminId);
+        adminRole.setRoleId(roleId);
+        adminRoleService.insert(adminRole);
+        return new UcenterResult(UcenterResultConstant.SUCCESS, null);
     }
 }
 

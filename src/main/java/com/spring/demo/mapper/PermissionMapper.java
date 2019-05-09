@@ -1,11 +1,13 @@
 package com.spring.demo.mapper;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.spring.demo.entity.Permission;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.spring.demo.vo.PermissionVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -20,4 +22,6 @@ public interface PermissionMapper extends BaseMapper<Permission> {
     List<PermissionVo> getPermissionVo();
 
     List<Permission> getPermissionListByPid(@Param("pid") Integer pid);
+
+    List<Map<String, Object>> getEditPermissionList(Page<Map<String, Object>> p, @Param("roleId") Integer roleId);
 }

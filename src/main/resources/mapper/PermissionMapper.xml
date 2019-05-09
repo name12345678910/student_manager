@@ -14,4 +14,12 @@
         select * from permission
         where pid=#{pid}
     </select>
+
+    <select id="getEditPermissionList" resultType="Map">
+        select p.*,if(selectedPermi.id is null,'0','1') status from permission p
+        left join
+        (select * from role_permission where role_id=#{roleId}) selectedPermi
+        on selectedPermi.permit_id=p.id
+        order by status
+    </select>
 </mapper>

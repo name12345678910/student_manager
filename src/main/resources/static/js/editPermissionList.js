@@ -1,13 +1,14 @@
 var pageCurr;
 $(function () {
+    var roleId = $("#roleId").val();
     layui.use('table', function () {
         var table = layui.table
             , form = layui.form;
 
         tableIns = table.render({
             id: "visitorTableId"
-            , elem: '#visitorList'
-            , url: '/admin/getAdminList'
+            , elem: '#editPermissionList'
+            , url: '/permission/getEditPermissionList?roleId=' + roleId
             , method: 'get' //默认：get请求
             , cellMinWidth: 80
             , page: true
@@ -21,12 +22,11 @@ $(function () {
                 , dataName: 'list' //数据列表的字段名称，默认：data
             }
             , cols: [[ //表头
-                {type: 'checkbox'}
-                , {field: 'id', title: 'id', sort: true}
-                , {field: 'nickname', title: '昵称'}
-                , {field: 'loginName', title: '用户名'}
-                , {field: 'passwd', title: '密码'}
-                , {field: 'adminStatus', title: '可用状态'}
+                {field: 'name', title: '权限名称'}
+                , {field: 'istype', title: '权限类型'}
+                , {field: 'descpt', title: '权限描述'}
+                , {field: 'code', title: '权限编号'}
+                , {field: 'page', title: '权限路径'}
                 , {fixed: 'right', align: 'center', toolbar: '#optBar'}
             ]]
             , done: function (res, curr, count) {
@@ -37,58 +37,63 @@ $(function () {
                 // console.log(curr);
                 //得到数据总量
                 // console.log(count);
-                $("[data-field='adminStatus']").children().each(function () {
+                $("[data-field='istype']").children().each(function () {
                     if ($(this).text() == '0') {
-                        $(this).text("不可用")
+                        $(this).text("菜单")
                     } else if ($(this).text() == '1') {
-                        $(this).text("可用")
+                        $(this).text("功能")
                     }
                 });
             }
         });
 
         //监听工具条
-        table.on('tool(visitorTable)', function (obj) {
+        table.on('tool(editPermissionTable)', function (obj) {
             var data = obj.data;
-            $("#appId").val(data.id);
-            if (obj.event === 'editVisitor') {
-                layer.open({
-                    type: 2,
-                    title: '编辑管理员',
-                    shadeClose: true,
-                    shade: 0.8,
-                    area: ['60%', '70%'],
-                    content: '/admin/toEditAdmin?adminId=' + data.id
+            if (obj.event === 'delPermission') {
+                layer.confirm('您确定取消权限吗？', {
+                    btn: ['确定', '取消'] //按钮
+                }, function () {
+                    $.post("/permission/delPermission", {'roleId': roleId, 'permissionId': data.id}, function (data) {
+                        if (data.success) {
+                            layer.alert("取消成功", function (index) {
+                                layer.close(index); //再执行关闭
+                                load(obj);
+                            });
+                        } else {
+                            layer.alert(data.message);
+                        }
+                    });
+                }, function () {
+                    return;
                 });
             }
 
-            if (obj.event === 'lookVisitor') {
-                layer.open({
-                    type: 2,
-                    title: '查看管理员',
-                    shadeClose: true,
-                    shade: 0.8,
-                    area: ['60%', '70%'],
-                    content: '/admin/lookAdmin?adminId=' + data.id
+            if (obj.event === 'addPermission') {
+                layer.confirm('您确定添加权限吗？', {
+                    btn: ['确定', '取消'] //按钮
+                }, function () {
+                    $.post("/permission/addPermission", {'roleId': roleId, 'permissionId': data.id}, function (data) {
+                        if (data.success) {
+                            layer.alert("添加成功", function (index) {
+                                layer.close(index); //再执行关闭
+                                load(obj);
+                            });
+                        } else {
+                            layer.alert(data.message);
+                        }
+                    });
+                }, function () {
+                    return;
                 });
             }
 
-            if (obj.event === 'addRole') {
-                layer.open({
-                    type: 2,
-                    title: '授予角色',
-                    shadeClose: true,
-                    shade: 0.8,
-                    area: ['60%', '70%'],
-                    content: '/admin/toAddRole?adminId=' + data.id
-                });
-            }
 
             if (obj.event === 'delVisitor') {
                 layer.confirm('您确定删除吗？', {
                     btn: ['确定', '取消'] //按钮
                 }, function () {
-                    $.post("/admin/delAdminById", {'adminId': data.id}, function (data) {
+                    $.post("/visitor/delVisitorById", {'visitorId': data.id}, function (data) {
                         if (data.success) {
                             layer.alert("删除成功", function (index) {
                                 layer.close(index); //再执行关闭

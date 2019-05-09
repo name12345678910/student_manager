@@ -5,9 +5,9 @@ $(function () {
             , form = layui.form;
 
         tableIns = table.render({
-            id: "visitorTableId"
-            , elem: '#visitorList'
-            , url: '/admin/getAdminList'
+            id: "studentTableId"
+            , elem: '#roleList'
+            , url: '/role/getRoleList'
             , method: 'get' //默认：get请求
             , cellMinWidth: 80
             , page: true
@@ -21,12 +21,9 @@ $(function () {
                 , dataName: 'list' //数据列表的字段名称，默认：data
             }
             , cols: [[ //表头
-                {type: 'checkbox'}
-                , {field: 'id', title: 'id', sort: true}
-                , {field: 'nickname', title: '昵称'}
-                , {field: 'loginName', title: '用户名'}
-                , {field: 'passwd', title: '密码'}
-                , {field: 'adminStatus', title: '可用状态'}
+                {field: 'roleName', title: '角色名称'}
+                , {field: 'descpt', title: '角色描述'}
+                , {field: 'code', title: '角色编号'}
                 , {fixed: 'right', align: 'center', toolbar: '#optBar'}
             ]]
             , done: function (res, curr, count) {
@@ -48,47 +45,55 @@ $(function () {
         });
 
         //监听工具条
-        table.on('tool(visitorTable)', function (obj) {
+        table.on('tool(roleTable)', function (obj) {
             var data = obj.data;
             $("#appId").val(data.id);
-            if (obj.event === 'editVisitor') {
+            if (obj.event === 'editPermission') {
                 layer.open({
                     type: 2,
-                    title: '编辑管理员',
+                    title: '编辑学生',
                     shadeClose: true,
                     shade: 0.8,
-                    area: ['60%', '70%'],
-                    content: '/admin/toEditAdmin?adminId=' + data.id
+                    area: ['85%', '90%'],
+                    content: '/permission/editPermissionList?roleId=' + data.id
                 });
             }
 
-            if (obj.event === 'lookVisitor') {
+            if (obj.event === 'lookStudent') {
                 layer.open({
                     type: 2,
                     title: '查看管理员',
                     shadeClose: true,
                     shade: 0.8,
                     area: ['60%', '70%'],
-                    content: '/admin/lookAdmin?adminId=' + data.id
+                    content: '/student/lookStudent?studentId=' + data.id
                 });
             }
 
-            if (obj.event === 'addRole') {
-                layer.open({
-                    type: 2,
-                    title: '授予角色',
-                    shadeClose: true,
-                    shade: 0.8,
-                    area: ['60%', '70%'],
-                    content: '/admin/toAddRole?adminId=' + data.id
-                });
-            }
-
-            if (obj.event === 'delVisitor') {
+            if (obj.event === 'delStudent') {
                 layer.confirm('您确定删除吗？', {
                     btn: ['确定', '取消'] //按钮
                 }, function () {
-                    $.post("/admin/delAdminById", {'adminId': data.id}, function (data) {
+                    $.post("/student/delStudentById", {'studentId': data.id}, function (data) {
+                        if (data.success) {
+                            layer.alert("删除成功", function (index) {
+                                layer.close(index); //再执行关闭
+                                load(obj);
+                            });
+                        } else {
+                            layer.alert(data.message);
+                        }
+                    });
+                }, function () {
+                    return;
+                });
+            }
+
+            if (obj.event === 'delStudent') {
+                layer.confirm('您确定删除吗？', {
+                    btn: ['确定', '取消'] //按钮
+                }, function () {
+                    $.post("/student/delStudentById", {'studentId': data.id}, function (data) {
                         if (data.success) {
                             layer.alert("删除成功", function (index) {
                                 layer.close(index); //再执行关闭
