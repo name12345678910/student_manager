@@ -38,7 +38,7 @@ public class MybatisPlusGenerator {
          * table前缀,对应tables的位置
          */
 //        String[] prefix = {"r_basic", "t_basic", "t_matrix", "t_node"};
-        String[] tables = {"system_config"};
+        String[] tables = {"role","admin_role","permission","role_permission"};
 
         dataSourceConfig.setDbType(DbType.MYSQL)
                 .setUrl(dbUrl)
@@ -55,7 +55,7 @@ public class MybatisPlusGenerator {
                 .setEnableCache(false)
                 .setAuthor("tangxiaoping")
                 //指定输出文件夹位置
-                .setOutputDir("D:\\cczj\\demo\\src\\main\\java")
+                .setOutputDir("E://springboot-master//src//main//java")
                 .setFileOverride(true)
                 .setServiceName("%sService");
 
@@ -74,7 +74,7 @@ public class MybatisPlusGenerator {
         focList.add(new FileOutConfig("/templates/mapper.xml.vm") {
             @Override
             public String outputFile(TableInfo tableInfo) {
-                return "D://cczj//demo//src//main//resources//mapper//" + tableInfo.getEntityName() + "Mapper.xml";
+                return "E://springboot-master//src//main//resources//mapper" + tableInfo.getEntityName() + "Mapper.xml";
             }
         });
         cfg.setFileOutConfigList(focList);
