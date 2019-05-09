@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.demo.mapper.PermissionMapper">
+    <resultMap id="permissionVo" type="com.spring.demo.vo.PermissionVo">
+        <id property="id" column="id"/>
+        <collection property="children" column="id" ofType="com.spring.demo.entity.Permission"
+                    select="com.spring.demo.mapper.PermissionMapper.getPermissionListByPid"></collection>
+    </resultMap>
+    <select id="getPermissionVo" resultMap="permissionVo">
+        select * from permission where pid=-1
+    </select>
+
+    <select id="getPermissionListByPid" resultType="com.spring.demo.entity.Permission">
+        select * from permission
+        where pid=#{pid}
+    </select>
+</mapper>

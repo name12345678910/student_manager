@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50643
 File Encoding         : 65001
 
-Date: 2019-05-08 16:22:48
+Date: 2019-05-09 16:10:42
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -33,6 +33,21 @@ CREATE TABLE `admin` (
 
 -- ----------------------------
 -- Records of admin
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `admin_role`
+-- ----------------------------
+DROP TABLE IF EXISTS `admin_role`;
+CREATE TABLE `admin_role` (
+  `id` int(5) NOT NULL AUTO_INCREMENT,
+  `admin_id` int(11) NOT NULL,
+  `role_id` int(5) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of admin_role
 -- ----------------------------
 
 -- ----------------------------
@@ -192,6 +207,34 @@ CREATE TABLE `major` (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for `permission`
+-- ----------------------------
+DROP TABLE IF EXISTS `permission`;
+CREATE TABLE `permission` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(30) DEFAULT NULL COMMENT '菜单名称',
+  `pid` int(11) DEFAULT NULL COMMENT '父菜单id',
+  `zindex` int(2) DEFAULT NULL COMMENT '菜单排序',
+  `istype` int(1) DEFAULT NULL COMMENT '权限分类（0 菜单；1 功能）',
+  `descpt` varchar(50) DEFAULT NULL COMMENT '描述',
+  `code` varchar(20) DEFAULT NULL COMMENT '菜单编号',
+  `icon` varchar(30) DEFAULT NULL COMMENT '菜单图标名称',
+  `page` varchar(50) DEFAULT NULL COMMENT '菜单url',
+  `insert_time` datetime DEFAULT NULL COMMENT '添加时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+-- ----------------------------
+-- Records of permission
+-- ----------------------------
+INSERT INTO `permission` VALUES ('1', 'test', '-1', '1', '1', '1', '1', '1', '1', '2019-05-09 15:41:59', null);
+INSERT INTO `permission` VALUES ('2', 'test1', '1', '2', '2', '2', '1', '1', '1', '2019-05-09 15:42:14', null);
+INSERT INTO `permission` VALUES ('3', 'test2', '1', '3', '3', '3', '3', '3', '3', '2019-05-09 15:42:33', null);
+INSERT INTO `permission` VALUES ('4', 'test4', '-1', '4', '4', '4', '4', '4', '4', '2019-05-09 15:42:57', null);
+INSERT INTO `permission` VALUES ('5', 'test5', '4', '5', '5', '5', '5', '5', '5', '2019-05-09 15:43:10', null);
+
+-- ----------------------------
 -- Table structure for `repair`
 -- ----------------------------
 DROP TABLE IF EXISTS `repair`;
@@ -217,6 +260,40 @@ INSERT INTO `repair` VALUES ('19', null, null, null, null, null, null, null, nul
 INSERT INTO `repair` VALUES ('20', null, null, null, null, null, null, null, null, null);
 INSERT INTO `repair` VALUES ('21', null, null, null, null, null, null, null, null, null);
 INSERT INTO `repair` VALUES ('22', null, null, null, null, null, null, null, null, null);
+
+-- ----------------------------
+-- Table structure for `role`
+-- ----------------------------
+DROP TABLE IF EXISTS `role`;
+CREATE TABLE `role` (
+  `id` int(5) NOT NULL AUTO_INCREMENT,
+  `role_name` varchar(30) DEFAULT NULL COMMENT '角色名称',
+  `descpt` varchar(50) DEFAULT NULL COMMENT '角色描述',
+  `code` varchar(20) DEFAULT NULL COMMENT '角色编号',
+  `insert_uid` int(11) DEFAULT NULL COMMENT '操作用户id',
+  `insert_time` datetime DEFAULT NULL COMMENT '添加数据时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of role
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `role_permission`
+-- ----------------------------
+DROP TABLE IF EXISTS `role_permission`;
+CREATE TABLE `role_permission` (
+  `id` int(5) NOT NULL AUTO_INCREMENT,
+  `permit_id` int(5) NOT NULL,
+  `role_id` int(5) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+-- ----------------------------
+-- Records of role_permission
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `student`
@@ -263,6 +340,23 @@ CREATE TABLE `stu_class` (
 
 -- ----------------------------
 -- Records of stu_class
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `system_config`
+-- ----------------------------
+DROP TABLE IF EXISTS `system_config`;
+CREATE TABLE `system_config` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `config_key` varchar(255) DEFAULT NULL COMMENT 'key值',
+  `config_value` varchar(255) DEFAULT NULL COMMENT 'value值',
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of system_config
 -- ----------------------------
 
 -- ----------------------------
