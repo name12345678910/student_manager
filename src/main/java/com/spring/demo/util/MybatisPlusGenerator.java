@@ -38,7 +38,7 @@ public class MybatisPlusGenerator {
          * table前缀,对应tables的位置
          */
 //        String[] prefix = {"r_basic", "t_basic", "t_matrix", "t_node"};
-        String[] tables = {"role", "permission"};
+        String[] tables = {"system_config"};
 
         dataSourceConfig.setDbType(DbType.MYSQL)
                 .setUrl(dbUrl)

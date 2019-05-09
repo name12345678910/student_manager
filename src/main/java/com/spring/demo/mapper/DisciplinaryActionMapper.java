@@ -11,7 +11,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author tangxiaoping123
@@ -19,5 +19,5 @@ import com.baomidou.mybatisplus.plugins.Page;
  */
 public interface DisciplinaryActionMapper extends BaseMapper<DisciplinaryAction> {
 
-	List<DisciplinaryAction> getPageDisciplinaryActionList(Page<DisciplinaryAction> p, Integer studentId);
+    List<DisciplinaryAction> getPageDisciplinaryActionList(Page<DisciplinaryAction> p, @Param("studentId") Integer studentId);
 }
